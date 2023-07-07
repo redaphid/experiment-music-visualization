@@ -7,7 +7,7 @@ export class SadnessEventEmitter {
   private isSad: boolean;
   private previousIntensity: number;
 
-  constructor(private analyser: AnalyserNode, private threshold: number, private audioContext: AudioContext) {
+  constructor(private analyser: AnalyserNode, private threshold: number, private audioContext: AudioContext, private sourceNode: MediaStreamAudioSourceNode) {
     this.isSad = false;
     this.previousIntensity = 0;
   }
@@ -20,6 +20,10 @@ export class SadnessEventEmitter {
     console.log({ audioWorkletURL });
     await this.audioContext.audioWorklet.addModule(audioWorkletURL);
     const workletNode = new AudioWorkletNode(this.audioContext, 'AudioWorkletExample');
+    workletNode.port.onmessage = (event) => {
+      console.log('message from worklet', event);
+    };
+    this.sourceNode.connect(workletNode);
     workletNode.connect(this.audioContext.destination);
   }
 

@@ -21,18 +21,18 @@ async function startMicrophoneInput(){
   // Now you can use the analyserNode to analyze the microphone audio data
   // ...
   console.log('done')
-  return {analyserNode, audioContext};
+  return {sourceNode, analyserNode, audioContext,stream};
 }
 
 const button = document.getElementById('btn')
 if(!button) throw new Error('Button not found')
 button.addEventListener('click', async () => {
 
-  const {analyserNode,audioContext} = await startMicrophoneInput();
+  const {sourceNode, analyserNode,audioContext} = await startMicrophoneInput();
 
 
   const threshold = 100; // Adjust the threshold as needed
-  const sadnessEmitter = new SadnessEventEmitter(analyserNode, threshold, audioContext);
+  const sadnessEmitter = new SadnessEventEmitter(analyserNode, threshold, audioContext, sourceNode);
   sadnessEmitter.startListening();
 });
 export {}
