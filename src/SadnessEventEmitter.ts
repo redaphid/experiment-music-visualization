@@ -1,4 +1,3 @@
-import {AudioWorkletExample} from './AudioWorkletExample'
 interface SadnessChangeEvent {
   isSad: boolean;
   intensity: number;
@@ -14,7 +13,7 @@ export class SadnessEventEmitter {
   }
 
   public async startListening() {
-    const scriptURL = new URL(`${window.location.href}AudioWorkletExample.js`);
+    const scriptURL = new URL(`${window.location.href}/workers/AudioWorkletExample.js`);
 
     // Derive the URL for the audio worklet file
     const audioWorkletURL = scriptURL.href;
